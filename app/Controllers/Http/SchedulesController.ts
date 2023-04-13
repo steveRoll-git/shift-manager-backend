@@ -19,8 +19,8 @@ export default class SchedulesController {
 
     const schedule = new Schedule()
     schedule.name = payload.name
-    // TODO create all shift types
     await schedule.save()
+    await schedule.related('shiftTypes').createMany(payload.shiftTypes)
 
     if (schedule.$isPersisted) {
       response.status(201)
