@@ -6,6 +6,12 @@ export default class ShiftType extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public name: string
+
+  @column()
+  public scheduleId: number
+
   @belongsTo(() => Schedule)
   public schedule: BelongsTo<typeof Schedule>
 

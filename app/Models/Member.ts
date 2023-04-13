@@ -9,6 +9,9 @@ export default class Member extends BaseModel {
   @column()
   public name: string
 
+  @column()
+  public userId: number
+
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
 
