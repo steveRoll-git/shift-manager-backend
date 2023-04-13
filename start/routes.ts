@@ -20,7 +20,6 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/api/', async () => {
-  await new Promise(resolve => setTimeout(resolve, 3000))
-  return { hello: 'world' }
-})
+Route.group(() => {
+  Route.post('schedules', 'SchedulesController.create')
+}).prefix('api')
