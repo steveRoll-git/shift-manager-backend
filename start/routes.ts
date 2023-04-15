@@ -21,5 +21,10 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
+  Route.get('schedules/:id', 'SchedulesController.show').where('id', {
+    match: /^[0-9]+$/,
+    cast: (id) => Number(id),
+  })
+
   Route.post('schedules', 'SchedulesController.create')
 }).prefix('api')

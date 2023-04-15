@@ -35,7 +35,18 @@ export default class SchedulesController {
 
   public async store({}: HttpContextContract) {}
 
-  public async show({}: HttpContextContract) {}
+  public async show({ params, response }: HttpContextContract) {
+    const id = params.id as number
+
+    const schedule = await Schedule.find(id)
+    if (schedule) {
+      await schedule.load("shiftTypes")
+      await schedule.load("members")
+      return schedule
+    }
+
+    response.status(404)
+  }
 
   public async edit({}: HttpContextContract) {}
 
