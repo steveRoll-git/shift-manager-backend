@@ -5,10 +5,11 @@ export default class extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
+      table.integer('schedule_id').unsigned().references('schedules.id')
       table.integer('shift_type_id').unsigned().references('shift_types.id')
       table.integer('member_id').unsigned().references('members.id')
       table.date('date')
-      table.primary(['shift_type_id', 'member_id', 'date'])
+      table.primary(['schedule_id', 'shift_type_id', 'member_id', 'date'])
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

@@ -40,8 +40,8 @@ export default class SchedulesController {
 
     const schedule = await Schedule.find(id)
     if (schedule) {
-      await schedule.load("shiftTypes")
-      await schedule.load("members")
+      await schedule.load('shiftTypes')
+      await schedule.load('members')
       return schedule
     }
 

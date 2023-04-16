@@ -18,7 +18,7 @@ export default class Schedule extends BaseModel {
   public shifts: HasMany<typeof Shift>
 
   @manyToMany(() => Member, {
-    pivotTable: "schedule_members"
+    pivotTable: 'schedule_members',
   })
   public members: ManyToMany<typeof Member>
 

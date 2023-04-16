@@ -20,11 +20,11 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
+Route.where('id', Route.matchers.number())
+
 Route.group(() => {
-  Route.get('schedules/:id', 'SchedulesController.show').where('id', {
-    match: /^[0-9]+$/,
-    cast: (id) => Number(id),
-  })
+  Route.get('schedules/:id', 'SchedulesController.show')
+  Route.get('schedules/:id/shifts', 'ShiftsController.index')
 
   Route.post('schedules', 'SchedulesController.create')
 }).prefix('api')
