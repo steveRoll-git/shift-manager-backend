@@ -21,16 +21,14 @@ export default class ShiftsController {
       return response.status(404)
     }
 
-    let query = Shift.query().where('schedule_id', params.id)
-
-    if (payload.minDate) {
-      query = query.where('date', '>=', payload.minDate.toSQLDate())
-    }
-    if (payload.maxDate) {
-      query = query.where('date', '<=', payload.maxDate.toSQLDate())
-    }
-
-    const shifts = await query
+    const shifts = await Shift.query()
+      .where('schedule_id', params.id)
+      .if(payload.minDate, (query) => {
+        query.where('date', '>=', payload.minDate!.toSQLDate())
+      })
+      .if(payload.maxDate, (query) => {
+        query.where('date', '<=', payload.maxDate!.toSQLDate())
+      })
 
     return shifts.map((shift) => shift.serialize())
   }
