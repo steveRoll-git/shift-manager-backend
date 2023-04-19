@@ -4,6 +4,14 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Schedule from 'App/Models/Schedule'
 import Shift from 'App/Models/Shift'
 
+const shiftArraySchema = schema.array().members(
+  schema.object().members({
+    shiftTypeId: schema.number(),
+    memberId: schema.number(),
+    date: schema.date(),
+  })
+)
+
 export default class ShiftsController {
   public async index({ request, response, params }: HttpContextContract) {
     const shiftSearchSchema = schema.create({
@@ -42,11 +50,33 @@ export default class ShiftsController {
 
   public async create({}: HttpContextContract) {}
 
-  public async store({}: HttpContextContract) {}
+  public async edit({ request, params }: HttpContextContract) {
+    const editShiftsSchema = schema.create({
+      addShifts: shiftArraySchema,
+      removeShifts: shiftArraySchema,
+    })
+
+    const payload = await request.validate({ schema: editShiftsSchema })
+
+    const addShifts = payload.addShifts.map((o) => ({ ...o, scheduleId: params.id as number }))
+    await Shift.createMany(addShifts)
+
+    const removeShifts = payload.removeShifts.map((o) => ({
+      ...o,
+      date: o.date.toSQLDate(),
+      scheduleId: params.id as number,
+    }))
+    for (const shift of removeShifts) {
+      await Shift.query()
+        .where('scheduleId', shift.scheduleId)
+        .where('shiftTypeId', shift.shiftTypeId)
+        .where('memberId', shift.memberId)
+        .where('date', shift.date)
+        .delete()
+    }
+  }
 
   public async show({}: HttpContextContract) {}
-
-  public async edit({}: HttpContextContract) {}
 
   public async update({}: HttpContextContract) {}
 

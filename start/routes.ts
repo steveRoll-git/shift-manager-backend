@@ -25,6 +25,7 @@ Route.where('id', Route.matchers.number())
 Route.group(() => {
   Route.get('schedules/:id', 'SchedulesController.show')
   Route.get('schedules/:id/shifts', 'ShiftsController.index')
+  Route.put('schedules/:id/shifts', 'ShiftsController.edit')
 
   Route.post('schedules', 'SchedulesController.create')
 }).prefix('api')
