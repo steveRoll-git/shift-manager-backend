@@ -9,6 +9,7 @@ export default class ShiftsController {
     const shiftSearchSchema = schema.create({
       minDate: schema.date.optional(),
       maxDate: schema.date.optional(),
+      dates: schema.array.optional().members(schema.date()),
     })
 
     const payload = await request.validate({ schema: shiftSearchSchema })
@@ -23,6 +24,12 @@ export default class ShiftsController {
 
     const shifts = await Shift.query()
       .where('schedule_id', params.id)
+      .if(payload.dates, (query) => {
+        query.whereIn(
+          'date',
+          payload.dates!.map((d) => d.toISODate())
+        )
+      })
       .if(payload.minDate, (query) => {
         query.where('date', '>=', payload.minDate!.toSQLDate())
       })
