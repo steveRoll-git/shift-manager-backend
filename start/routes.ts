@@ -27,5 +27,5 @@ Route.group(() => {
   Route.get('schedules/:id/shifts', 'ShiftsController.index')
   Route.put('schedules/:id/shifts', 'ShiftsController.edit')
 
-  Route.post('schedules', 'SchedulesController.create')
+  Route.post('schedules', 'SchedulesController.store')
 }).prefix('api')

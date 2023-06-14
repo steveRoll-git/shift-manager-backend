@@ -5,7 +5,7 @@ import Schedule from 'App/Models/Schedule'
 export default class SchedulesController {
   public async index({}: HttpContextContract) {}
 
-  public async create({ request, response }: HttpContextContract) {
+  public async store({ request, response }: HttpContextContract) {
     const newScheduleSchema = schema.create({
       name: schema.string(),
       shiftTypes: schema.array().members(
@@ -32,8 +32,6 @@ export default class SchedulesController {
       return
     }
   }
-
-  public async store({}: HttpContextContract) {}
 
   public async show({ params, response }: HttpContextContract) {
     const id = params.id as number
